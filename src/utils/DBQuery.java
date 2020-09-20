@@ -1,20 +1,23 @@
 package utils;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+
+import static utils.DBConnection.conn;
 
 public class DBQuery {
+    private static String query;
+    private static PreparedStatement statement;
+    private static ResultSet result;
 
-    private static Statement statement; // Statement reference.
-
-    // Create Statement Object
-    public static void setStatement(Connection conn) throws SQLException {
-        statement = conn.createStatement();
+    public static void makeQuery(String queryStatement) {
+        try {
+            statement = conn.prepareStatement(queryStatement);
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
-    // Return Statement Object
-    public static Statement getStatement() {
+    public static PreparedStatement getQuery() {
         return statement;
     }
 }

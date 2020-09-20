@@ -7,6 +7,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import utils.DBConnection;
+import utils.DBQuery;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class Main extends Application {
 
@@ -19,8 +24,16 @@ public class Main extends Application {
     }
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
+
+//        Connection conn = DBConnection.startConnection();
+
         DBConnection.startConnection();
+//        DBQuery.setStatement(conn); // Create Statement Object
+//        Statement statement = DBQuery.getStatement(); // Get Statement reference
+//
+//        String insertStatement = "INSERT INTO country(country"
+
         launch(args);
         DBConnection.closeConnection();
     }

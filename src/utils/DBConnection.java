@@ -17,7 +17,7 @@ public class DBConnection {
 
     // Driver and Connection Interface reference
     private static final String MYSQLJDBCDriver = "com.mysql.cj.jdbc.Driver";
-    private static Connection conn = null;
+    static Connection conn;
 
     private static final String username = "U07wmh";
     private static final String password = "53689153753";
@@ -26,7 +26,7 @@ public class DBConnection {
         try {
             Class.forName(MYSQLJDBCDriver);
             conn = (Connection) DriverManager.getConnection(jdbcURL, username, password);
-            System.out.println("Connection successfull");
+            System.out.println("Connection successful.");
         } catch (ClassNotFoundException e) {
             System.out.println(e.getMessage());
         } catch (SQLException e) {

@@ -13,10 +13,10 @@
             <Font size="22.0" />
          </font>
       </Label>
-      <Label fx:id="userNameLabel" layoutX="86.0" layoutY="83.0" text="Username" />
+      <Label layoutX="86.0" layoutY="83.0" text="Username" />
       <TextField fx:id="usernameTextField" layoutX="153.0" layoutY="78.0" />
-      <Label fx:id="passwordLabel" layoutX="87.0" layoutY="121.0" text="Password" />
+      <Label layoutX="87.0" layoutY="121.0" text="Password" />
       <TextField fx:id="passwordTextField" layoutX="153.0" layoutY="116.0" />
-      <Button fx:id="logInButton" layoutX="262.0" layoutY="159.0" mnemonicParsing="false" text="Log in" />
+      <Button layoutX="262.0" layoutY="159.0" mnemonicParsing="false" onAction="#handleLoginButton" text="Log in" />
    </children>
 </AnchorPane>
