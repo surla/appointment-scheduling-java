@@ -16,14 +16,16 @@
             <Font name="System Bold" size="17.0" />
          </font>
       </Label>
-      <Button layoutX="370.0" layoutY="228.0" mnemonicParsing="false" text="Update Customer" />
+      <Button layoutX="370.0" layoutY="228.0" mnemonicParsing="false" onAction="#handleUpdateButton" text="Update Customer" />
       <Button layoutX="497.0" layoutY="228.0" mnemonicParsing="false" text="Delete Customer" />
       <Button layoutX="552.0" layoutY="271.0" mnemonicParsing="false" onAction="#handleCancelButton" text="Cancel" />
       <TableView fx:id="customerTableView" layoutX="16.0" layoutY="51.0" prefHeight="247.0" prefWidth="316.0">
         <columns>
-          <TableColumn fx:id="customerNameColumn" prefWidth="114.24005317687988" text="Customer Name" />
-          <TableColumn fx:id="addressColumn" prefWidth="97.7117919921875" text="Address" />
-            <TableColumn fx:id="phoneNumberColumn" prefWidth="101.0" text="Phone Number" />
+          <TableColumn fx:id="customerNameColumn" prefWidth="115.5" text="Customer Name" />
+          <TableColumn fx:id="addressColumn" prefWidth="93.0" text="Address" />
+            <TableColumn fx:id="phoneNumberColumn" prefWidth="104.0" text="Phone Number" />
+            <TableColumn fx:id="customerIdColumn" minWidth="0.0" prefWidth="0.0" text="customerId" />
+            <TableColumn fx:id="addressIdColumn" minWidth="0.0" prefWidth="0.0" text="addressId" />
         </columns>
       </TableView>
       <Label layoutX="346.0" layoutY="62.0" text="Customer Information">
