@@ -1,11 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.MainController">
+<AnchorPane prefHeight="372.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.MainController">
    <children>
-      <Text layoutX="104.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Appointment Schedule System" />
+      <Text layoutX="40.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Appointment Schedule System">
+         <font>
+            <Font name="System Bold" size="21.0" />
+         </font></Text>
+      <TableView layoutX="28.0" layoutY="116.0" prefHeight="190.0" prefWidth="543.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="C1" />
+          <TableColumn prefWidth="75.0" text="C2" />
+            <TableColumn prefWidth="75.0" text="Column X" />
+            <TableColumn prefWidth="75.0" text="Column X" />
+        </columns>
+      </TableView>
+      <HBox layoutX="33.0" layoutY="77.0" prefHeight="0.0" prefWidth="532.0">
+         <children>
+            <RadioButton mnemonicParsing="false" text="View All" textAlignment="CENTER">
+               <padding>
+                  <Insets right="35.0" />
+               </padding>
+            </RadioButton>
+            <RadioButton mnemonicParsing="false" text="View Current Month" textAlignment="CENTER">
+               <padding>
+                  <Insets right="35.0" />
+               </padding>
+            </RadioButton>
+            <RadioButton mnemonicParsing="false" text="View Current Week" textAlignment="CENTER">
+               <padding>
+                  <Insets right="35.0" />
+               </padding>
+            </RadioButton>
+         </children>
+         <padding>
+            <Insets right="100.0" />
+         </padding>
+      </HBox>
+      <HBox layoutX="28.0" layoutY="319.0" prefHeight="27.0" prefWidth="543.0">
+         <children>
+            <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="115.0" text="Add Appointment">
+               <HBox.margin>
+                  <Insets right="20.0" />
+               </HBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="135.0" text="Modify Appointment">
+               <HBox.margin>
+                  <Insets right="20.0" />
+               </HBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#handleAddCustomerButton" prefHeight="27.0" prefWidth="103.0" text="Add Customer">
+               <HBox.margin>
+                  <Insets right="20.0" />
+               </HBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="130.0" text="Modify Customer">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
    </children>
 </AnchorPane>

@@ -44,5 +44,4 @@ public class DBConnection {
             System.out.println("Error: " + e.getMessage());
         }
     }
-
 }

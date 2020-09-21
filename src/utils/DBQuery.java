@@ -17,6 +17,15 @@ public class DBQuery {
         }
     }
 
+    // Overload method to take in RETURN_GENERATED_KEYS
+    public static void makeQuery(String queryStatement, int generatedKeys) {
+        try {
+            statement = conn.prepareStatement(queryStatement, generatedKeys);
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+
     public static PreparedStatement getQuery() {
         return statement;
     }

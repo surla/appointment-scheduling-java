@@ -16,7 +16,7 @@
          <font>
             <Font name="System Bold" size="21.0" />
          </font></Text>
-      <TableView layoutX="33.0" layoutY="116.0" prefHeight="190.0" prefWidth="532.0">
+      <TableView layoutX="28.0" layoutY="116.0" prefHeight="190.0" prefWidth="543.0">
         <columns>
           <TableColumn prefWidth="75.0" text="C1" />
           <TableColumn prefWidth="75.0" text="C2" />
@@ -46,19 +46,28 @@
             <Insets right="100.0" />
          </padding>
       </HBox>
-      <HBox layoutX="33.0" layoutY="320.0" prefHeight="25.0" prefWidth="472.0">
+      <HBox layoutX="28.0" layoutY="319.0" prefHeight="27.0" prefWidth="543.0">
          <children>
-            <Button mnemonicParsing="false" text="Add Appointment">
+            <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="115.0" text="Add Appointment">
                <HBox.margin>
-                  <Insets right="25.0" />
+                  <Insets right="20.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="148.0" text="Modify Appointment">
+            <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="135.0" text="Modify Appointment">
                <HBox.margin>
-                  <Insets right="25.0" />
+                  <Insets right="20.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="133.0" text="Delete Appointment" />
+            <Button mnemonicParsing="false" onAction="#handleAddCustomerButton" prefHeight="27.0" prefWidth="103.0" text="Add Customer">
+               <HBox.margin>
+                  <Insets right="20.0" />
+               </HBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="130.0" text="Modify Customer">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </Button>
          </children>
       </HBox>
    </children>
