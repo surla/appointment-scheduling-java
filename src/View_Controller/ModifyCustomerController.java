@@ -16,6 +16,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import utils.DBQuery;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.PreparedStatement;
@@ -44,8 +45,6 @@ public class ModifyCustomerController implements Initializable {
     private String phoneNumber;
     private int customerId;
     private int addressId;
-
-    private boolean setCustomers = false;
 
     // Method updates customer information
     public void handleUpdateButton(ActionEvent event) throws SQLException {
@@ -102,6 +101,32 @@ public class ModifyCustomerController implements Initializable {
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
         window.setScene(AddCustomerScene);
         window.show();
+    }
+
+    // Method will delete customer and associated address
+    public void handleDeleteButton(ActionEvent event) throws SQLException {
+
+        String deleteCustomerStatement = "DELETE customer, address FROM customer INNER JOIN address on address.addressId=? WHERE customer.customerId=?";
+        DBQuery.makeQuery(deleteCustomerStatement);
+
+        PreparedStatement psDeleteCustomer = DBQuery.getQuery();
+        psDeleteCustomer.setInt(1, addressId);
+        psDeleteCustomer.setInt(2, customerId);
+        psDeleteCustomer.execute();
+
+        // Clears and sets AllCustomers with updated values
+        Customer.getAllCustomers().clear();
+        Customer.setAllCustomers();
+
+        // Refreshes customerTable view with updated customers
+        customerTableView.refresh();
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Delete Customer");
+        alert.setHeaderText("Delete successful.");
+        alert.setContentText("Customer information has been successfully deleted.");
+
+        alert.showAndWait();
     }
 
 

@@ -17,7 +17,7 @@
          </font>
       </Label>
       <Button layoutX="370.0" layoutY="228.0" mnemonicParsing="false" onAction="#handleUpdateButton" text="Update Customer" />
-      <Button layoutX="497.0" layoutY="228.0" mnemonicParsing="false" text="Delete Customer" />
+      <Button layoutX="497.0" layoutY="228.0" mnemonicParsing="false" onAction="#handleDeleteButton" text="Delete Customer" />
       <Button layoutX="552.0" layoutY="271.0" mnemonicParsing="false" onAction="#handleCancelButton" text="Cancel" />
       <TableView fx:id="customerTableView" layoutX="16.0" layoutY="51.0" prefHeight="247.0" prefWidth="316.0">
         <columns>
