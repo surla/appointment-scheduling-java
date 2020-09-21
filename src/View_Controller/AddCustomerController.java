@@ -73,17 +73,13 @@ public class AddCustomerController {
             int addressId = rs.getInt(1);
 
 
-            // Creates new customer
-            Customer customer = new Customer(customerName, addressId);
-
-
             String insertCustomerStatement = "INSERT INTO customer VALUES (NULL,?,?, 1, ?, ?, ?, ?)";
 
             DBQuery.makeQuery(insertCustomerStatement);
             PreparedStatement psCustomer = DBQuery.getQuery();
 
-            psCustomer.setString(1, customer.getCustomerName());
-            psCustomer.setInt(2, customer.getAddressId());
+            psCustomer.setString(1, customerName);
+            psCustomer.setInt(2, addressId);
             psCustomer.setString(3, dtf.format((now)));
             psCustomer.setString(4, "test");
             psCustomer.setString(5, dtf.format((now)));
@@ -108,5 +104,15 @@ public class AddCustomerController {
         }
     }
 
+    public void handleCancelButton(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/View_Controller/Main.fxml"));
+        Parent AddCustomerParent = loader.load();
+        Scene AddCustomerScene = new Scene(AddCustomerParent);
+
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(AddCustomerScene);
+        window.show();
+    }
 
 }

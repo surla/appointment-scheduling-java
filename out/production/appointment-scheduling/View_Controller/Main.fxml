@@ -28,7 +28,7 @@
          <children>
             <RadioButton mnemonicParsing="false" text="View All" textAlignment="CENTER">
                <padding>
-                  <Insets right="35.0" />
+                  <Insets right="40.0" />
                </padding>
             </RadioButton>
             <RadioButton mnemonicParsing="false" text="View Current Month" textAlignment="CENTER">
@@ -38,7 +38,7 @@
             </RadioButton>
             <RadioButton mnemonicParsing="false" text="View Current Week" textAlignment="CENTER">
                <padding>
-                  <Insets right="35.0" />
+                  <Insets right="40.0" />
                </padding>
             </RadioButton>
          </children>
@@ -63,7 +63,7 @@
                   <Insets right="20.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="130.0" text="Modify Customer">
+            <Button mnemonicParsing="false" onAction="#handleModifyCustomerButton" prefHeight="27.0" prefWidth="130.0" text="Modify Customer">
                <HBox.margin>
                   <Insets />
                </HBox.margin>

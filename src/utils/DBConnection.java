@@ -17,7 +17,7 @@ public class DBConnection {
 
     // Driver and Connection Interface reference
     private static final String MYSQLJDBCDriver = "com.mysql.cj.jdbc.Driver";
-    static Connection conn;
+    public static Connection conn;
 
     private static final String username = "U07wmh";
     private static final String password = "53689153753";

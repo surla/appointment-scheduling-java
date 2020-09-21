@@ -23,4 +23,15 @@ public class MainController {
         window.setScene(AddCustomerScene);
         window.show();
     }
+
+    public void handleModifyCustomerButton(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/View_Controller/ModifyCustomer.fxml"));
+        Parent AddCustomerParent = loader.load();
+        Scene AddCustomerScene = new Scene(AddCustomerParent);
+
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(AddCustomerScene);
+        window.show();
+    }
 }

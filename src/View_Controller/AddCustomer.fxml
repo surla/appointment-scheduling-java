@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="257.0" prefWidth="353.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.AddCustomerController">
+<AnchorPane prefHeight="257.0" prefWidth="342.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.AddCustomerController">
    <children>
       <Label layoutX="31.0" layoutY="27.0" text="Add New Customer">
          <font>
@@ -32,5 +32,6 @@
          </padding>
       </Label>
       <Button layoutX="33.0" layoutY="207.0" mnemonicParsing="false" onAction="#handleSaveCustomerButton" text="Add Customer" />
+      <Button layoutX="249.0" layoutY="207.0" mnemonicParsing="false" onAction="#handleCancelButton" text="Cancel" />
    </children>
 </AnchorPane>
