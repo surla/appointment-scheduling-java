@@ -10,36 +10,39 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="372.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.MainController">
+<AnchorPane prefHeight="372.0" prefWidth="784.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.MainController">
    <children>
       <Text layoutX="40.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Appointment Schedule System">
          <font>
             <Font name="System Bold" size="21.0" />
          </font></Text>
-      <TableView layoutX="28.0" layoutY="116.0" prefHeight="190.0" prefWidth="543.0">
+      <TableView fx:id="appointmentTableView" layoutX="28.0" layoutY="116.0" prefHeight="190.0" prefWidth="720.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="C1" />
-          <TableColumn prefWidth="75.0" text="C2" />
-            <TableColumn prefWidth="75.0" text="Column X" />
-            <TableColumn prefWidth="75.0" text="Column X" />
+          <TableColumn fx:id="titleColumn" prefWidth="92.0" text="Title" />
+          <TableColumn fx:id="descriptionColumn" prefWidth="83.0" text="Description" />
+            <TableColumn fx:id="locationColumn" prefWidth="77.0" text="Location" />
+            <TableColumn fx:id="contactColumn" prefWidth="79.0" text="Contact" />
+            <TableColumn fx:id="typeColumn" prefWidth="69.0" text="Type" />
+            <TableColumn fx:id="startColumn" prefWidth="158.0" text="Start" />
+            <TableColumn fx:id="endColumn" prefWidth="161.0" text="End" />
         </columns>
       </TableView>
-      <HBox layoutX="33.0" layoutY="77.0" prefHeight="0.0" prefWidth="532.0">
+      <HBox layoutX="33.0" layoutY="77.0" prefHeight="18.0" prefWidth="543.0">
          <children>
             <RadioButton mnemonicParsing="false" text="View All" textAlignment="CENTER">
-               <padding>
-                  <Insets right="40.0" />
-               </padding>
-            </RadioButton>
-            <RadioButton mnemonicParsing="false" text="View Current Month" textAlignment="CENTER">
-               <padding>
+               <HBox.margin>
                   <Insets right="35.0" />
-               </padding>
+               </HBox.margin>
             </RadioButton>
-            <RadioButton mnemonicParsing="false" text="View Current Week" textAlignment="CENTER">
-               <padding>
-                  <Insets right="40.0" />
-               </padding>
+            <RadioButton mnemonicParsing="false" prefHeight="18.0" prefWidth="132.0" text="View Current Month" textAlignment="CENTER">
+               <HBox.margin>
+                  <Insets right="35.0" />
+               </HBox.margin>
+            </RadioButton>
+            <RadioButton mnemonicParsing="false" prefHeight="18.0" prefWidth="128.0" text="View Current Week" textAlignment="CENTER">
+               <HBox.margin>
+                  <Insets right="35.0" />
+               </HBox.margin>
             </RadioButton>
          </children>
          <padding>
