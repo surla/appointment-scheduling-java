@@ -83,8 +83,10 @@ public class LoginController {
     }
 
     public void initialize() {
+        // Gets System default language
         ResourceBundle rb = ResourceBundle.getBundle("utils/language", Locale.getDefault());
 
+        // Set language for log in scene
         titleLabel.setText(rb.getString("title"));
         usernameLabel.setText(rb.getString("username"));
         passwordLabel.setText(rb.getString("password"));
