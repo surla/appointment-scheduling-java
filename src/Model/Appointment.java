@@ -113,12 +113,9 @@ public class Appointment {
                     rs.getTimestamp("start"),
                     rs.getTimestamp("end")));
         }
-
-        System.out.println("Set all appointments" + allAppointments);
     }
 
     public static ObservableList<Appointment> getAllAppointments() {
-        System.out.println("Get all Appointments success!" + allAppointments);
         return allAppointments;
     }
 }

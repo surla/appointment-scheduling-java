@@ -2,6 +2,7 @@ package View_Controller;
 
 import Model.Appointment;
 import Model.Customer;
+import Model.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -59,15 +60,22 @@ public class AddAppointmentController {
 
     private ObservableList<Customer> getCustomerList = FXCollections.observableArrayList();
     private Integer customerId;
+    private Integer userId;
 
 
     public void handleSaveAppointmentButton(ActionEvent event) throws ParseException, SQLException, IOException {
+
+        System.out.println(User.getCurrentUser().getUserId());
+
         for (Customer customer: getCustomerList) {
             if (customer.getCustomerName().equals(customerComboBox.getValue())) {
                 customerId = customer.getCustomerId();
             }
         }
-        System.out.println(customerId);
+
+        // Gets current logged in userId;
+        userId= User.getCurrentUser().getUserId();
+
 
 
         title = titleTextField.getText();
@@ -84,18 +92,19 @@ public class AddAppointmentController {
         timestampStart = Timestamp.valueOf(inputStartDate);
         timestampEnd = Timestamp.valueOf(inputEndDate);
 
-        String insertAppointmentStatement = "INSERT INTO appointment VALUES (NULL,?,1,?,?,?, 'no contact',?, 'no url',?,?,'2019-01-01 00:00:00','test','2019-01-01 00:00:00','test')";
+        String insertAppointmentStatement = "INSERT INTO appointment VALUES (NULL,?,?,?,?,?, 'no contact',?, 'no url',?,?,'2019-01-01 00:00:00','test','2019-01-01 00:00:00','test')";
 
         DBQuery.makeQuery(insertAppointmentStatement);
 
         PreparedStatement psAppointment = DBQuery.getQuery();
         psAppointment.setInt(1, customerId);
-        psAppointment.setString(2, title);
-        psAppointment.setString(3, description);
-        psAppointment.setString(4, location);
-        psAppointment.setString(5, type);
-        psAppointment.setTimestamp(6,timestampStart);
-        psAppointment.setTimestamp(7, timestampEnd);
+        psAppointment.setInt(2, userId);
+        psAppointment.setString(3, title);
+        psAppointment.setString(4, description);
+        psAppointment.setString(5, location);
+        psAppointment.setString(6, type);
+        psAppointment.setTimestamp(7,timestampStart);
+        psAppointment.setTimestamp(8, timestampEnd);
 
         psAppointment.execute();
 

@@ -1,5 +1,7 @@
 package View_Controller;
 
+import Model.User;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 
 import javafx.fxml.FXMLLoader;
@@ -35,7 +37,9 @@ public class LoginController {
     // Stores username and password
     private static String username;
     private static String password;
+    private static Integer userId;
 
+    private User currentUser;
 
     private String alertTitle;
     private String alertHeaderText;
@@ -63,8 +67,8 @@ public class LoginController {
         ResultSet rs = ps.getResultSet();
 
         if (rs.next()) {
-            System.out.println("User found!");
-            System.out.println(rs);
+            currentUser = new User(rs.getInt(1), username, password);
+            User.setCurrentUser(currentUser);
 
             Parent root = FXMLLoader.load(getClass().getResource("/View_Controller/Main.fxml"));
             Scene mainScene = new Scene(root);
@@ -95,13 +99,5 @@ public class LoginController {
         alertTitle = rb.getString("alertTitle");
         alertHeaderText = rb.getString("alertHeaderText");
         alertContentText = rb.getString("alertContentText");
-
-
-
-//        if (Locale.getDefault().getLanguage().equals("en")) {
-//
-//        } else {
-//            System.out.println("Hello World!");
-//        }
     }
 }
