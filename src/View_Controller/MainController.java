@@ -2,7 +2,6 @@ package View_Controller;
 
 import Model.Appointment;
 
-import Model.Customer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,14 +12,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ResourceBundle;

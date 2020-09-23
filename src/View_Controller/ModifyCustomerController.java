@@ -13,16 +13,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import utils.DBQuery;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
-
-import static utils.DBConnection.conn;
 
 public class ModifyCustomerController implements Initializable {
 

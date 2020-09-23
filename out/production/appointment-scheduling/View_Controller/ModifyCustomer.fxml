@@ -10,46 +10,46 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="319.0" prefWidth="627.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.ModifyCustomerController">
-   <children>
-      <Label layoutX="17.0" layoutY="14.0" text="Modify Customer">
-         <font>
-            <Font name="System Bold" size="17.0" />
-         </font>
-      </Label>
-      <Button layoutX="370.0" layoutY="228.0" mnemonicParsing="false" onAction="#handleUpdateButton" text="Update Customer" />
-      <Button layoutX="497.0" layoutY="228.0" mnemonicParsing="false" onAction="#handleDeleteButton" text="Delete Customer" />
-      <Button layoutX="552.0" layoutY="271.0" mnemonicParsing="false" onAction="#handleCancelButton" text="Cancel" />
-      <TableView fx:id="customerTableView" layoutX="16.0" layoutY="51.0" prefHeight="247.0" prefWidth="316.0">
-        <columns>
-          <TableColumn fx:id="customerNameColumn" prefWidth="115.5" text="Customer Name" />
-          <TableColumn fx:id="addressColumn" prefWidth="93.0" text="Address" />
-            <TableColumn fx:id="phoneNumberColumn" prefWidth="104.0" text="Phone Number" />
-            <TableColumn fx:id="customerIdColumn" minWidth="0.0" prefWidth="0.0" text="customerId" />
-            <TableColumn fx:id="addressIdColumn" minWidth="0.0" prefWidth="0.0" text="addressId" />
-        </columns>
-      </TableView>
-      <Label layoutX="346.0" layoutY="62.0" text="Customer Information">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </Label>
-      <TextField fx:id="customerNameTextField" layoutX="447.0" layoutY="108.0" />
-      <TextField fx:id="addressTextField" layoutX="447.0" layoutY="149.0" />
-      <TextField fx:id="phoneNumberTextField" layoutX="447.0" layoutY="189.0" />
-      <Label layoutX="345.0" layoutY="193.0" text="Phone Number">
-         <padding>
-            <Insets top="3.0" />
-         </padding>
-      </Label>
-      <Label layoutX="345.0" layoutY="152.0" text="Address">
-         <padding>
-            <Insets top="3.0" />
-         </padding>
-      </Label>
-      <Label layoutX="345.0" layoutY="111.0" text="Customer Name">
-         <padding>
-            <Insets top="3.0" />
-         </padding>
-      </Label>
-   </children>
+    <children>
+        <Label layoutX="17.0" layoutY="14.0" text="Modify Customer">
+            <font>
+                <Font name="System Bold" size="17.0" />
+            </font>
+        </Label>
+        <Button layoutX="370.0" layoutY="228.0" mnemonicParsing="false" onAction="#handleUpdateButton" text="Update Customer" />
+        <Button layoutX="497.0" layoutY="228.0" mnemonicParsing="false" onAction="#handleDeleteButton" text="Delete Customer" />
+        <Button layoutX="561.0" layoutY="271.0" mnemonicParsing="false" onAction="#handleCancelButton" text="Back" />
+        <TableView fx:id="customerTableView" layoutX="16.0" layoutY="51.0" prefHeight="247.0" prefWidth="316.0">
+            <columns>
+                <TableColumn fx:id="customerNameColumn" prefWidth="115.5" text="Customer Name" />
+                <TableColumn fx:id="addressColumn" prefWidth="93.0" text="Address" />
+                <TableColumn fx:id="phoneNumberColumn" prefWidth="104.0" text="Phone Number" />
+                <TableColumn fx:id="customerIdColumn" minWidth="0.0" prefWidth="0.0" text="customerId" />
+                <TableColumn fx:id="addressIdColumn" minWidth="0.0" prefWidth="0.0" text="addressId" />
+            </columns>
+        </TableView>
+        <Label layoutX="346.0" layoutY="62.0" text="Customer Information">
+            <font>
+                <Font size="16.0" />
+            </font>
+        </Label>
+        <TextField fx:id="customerNameTextField" layoutX="447.0" layoutY="108.0" />
+        <TextField fx:id="addressTextField" layoutX="447.0" layoutY="149.0" />
+        <TextField fx:id="phoneNumberTextField" layoutX="447.0" layoutY="189.0" />
+        <Label layoutX="345.0" layoutY="193.0" text="Phone Number">
+            <padding>
+                <Insets top="3.0" />
+            </padding>
+        </Label>
+        <Label layoutX="345.0" layoutY="152.0" text="Address">
+            <padding>
+                <Insets top="3.0" />
+            </padding>
+        </Label>
+        <Label layoutX="345.0" layoutY="111.0" text="Customer Name">
+            <padding>
+                <Insets top="3.0" />
+            </padding>
+        </Label>
+    </children>
 </AnchorPane>
