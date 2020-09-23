@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
@@ -30,9 +32,20 @@ public class MainController implements Initializable {
     @FXML private TableColumn<Appointment, String> locationColumn;
     @FXML private TableColumn<Appointment, String> contactColumn;
     @FXML private TableColumn<Appointment, String> typeColumn;
-    @FXML private TableColumn<Appointment, Date> startColumn;
-    @FXML private TableColumn<Appointment, Date> endColumn;
+    @FXML private TableColumn<Appointment, LocalDate> dateColumn;
+    @FXML private TableColumn<Appointment, LocalTime> startTimeColumn;
+    @FXML private TableColumn<Appointment, LocalTime> endTimeColumn;
 
+    public void handleAddAppointmentButton(ActionEvent event) throws IOException, SQLException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/View_Controller/AddAppointment.fxml"));
+        Parent AddCustomerParent = loader.load();
+        Scene AddCustomerScene = new Scene(AddCustomerParent);
+
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(AddCustomerScene);
+        window.show();
+    }
 
     public void handleAddCustomerButton(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
@@ -69,16 +82,13 @@ public class MainController implements Initializable {
 
 
         //TableView Appointment
-
         appointmentTableView.setItems(Appointment.getAllAppointments());
-
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
         locationColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
-        contactColumn.setCellValueFactory(new PropertyValueFactory<>("contact"));
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
-        startColumn.setCellValueFactory(new PropertyValueFactory<>("start"));
-        endColumn.setCellValueFactory(new PropertyValueFactory<>("end"));
+        startTimeColumn.setCellValueFactory(new PropertyValueFactory<>("start"));
+        endTimeColumn.setCellValueFactory(new PropertyValueFactory<>("end"));
 
     }
 }

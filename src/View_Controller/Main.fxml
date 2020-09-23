@@ -22,9 +22,10 @@
           <TableColumn fx:id="descriptionColumn" prefWidth="83.0" text="Description" />
             <TableColumn fx:id="locationColumn" prefWidth="77.0" text="Location" />
             <TableColumn fx:id="contactColumn" prefWidth="79.0" text="Contact" />
-            <TableColumn fx:id="typeColumn" prefWidth="69.0" text="Type" />
-            <TableColumn fx:id="startColumn" prefWidth="158.0" text="Start" />
-            <TableColumn fx:id="endColumn" prefWidth="161.0" text="End" />
+            <TableColumn fx:id="typeColumn" prefWidth="90.0" text="Type" />
+            <TableColumn fx:id="dateColumn" text="Date" />
+            <TableColumn fx:id="startTimeColumn" prefWidth="61.0" text="Start" />
+            <TableColumn fx:id="endTimeColumn" minWidth="0.0" prefWidth="54.0" text="End" />
         </columns>
       </TableView>
       <HBox layoutX="33.0" layoutY="77.0" prefHeight="18.0" prefWidth="543.0">
@@ -51,7 +52,7 @@
       </HBox>
       <HBox layoutX="28.0" layoutY="319.0" prefHeight="27.0" prefWidth="543.0">
          <children>
-            <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="115.0" text="Add Appointment">
+            <Button mnemonicParsing="false" onAction="#handleAddAppointmentButton" prefHeight="27.0" prefWidth="115.0" text="Add Appointment">
                <HBox.margin>
                   <Insets right="20.0" />
                </HBox.margin>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="346.0" prefWidth="591.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.AddAppointmentController">
+   <children>
+      <Label layoutX="27.0" layoutY="24.0" text="Add Appointment">
+         <font>
+            <Font name="System Bold" size="21.0" />
+         </font>
+      </Label>
+      <MenuButton layoutX="150.0" layoutY="73.0" mnemonicParsing="false" text="Customer List">
+        <items>
+          <MenuItem mnemonicParsing="false" text="Action 1" />
+          <MenuItem mnemonicParsing="false" text="Action 2" />
+        </items>
+      </MenuButton>
+      <Label layoutX="27.0" layoutY="78.0" text="Select Customer" />
+      <Label layoutX="28.0" layoutY="130.0" text="Title" />
+      <TextField fx:id="titleTextField" layoutX="121.0" layoutY="125.0" />
+      <TextField fx:id="descriptionTextField" layoutX="121.0" layoutY="165.0" />
+      <TextField fx:id="locationTextField" layoutX="121.0" layoutY="205.0" />
+      <TextField fx:id="typeTextField" layoutX="121.0" layoutY="245.0" />
+      <Label layoutX="27.0" layoutY="170.0" text="Description" />
+      <Label layoutX="27.0" layoutY="210.0" text="Location" />
+      <Label layoutX="27.0" layoutY="250.0" text="Type" />
+      <Button layoutX="498.0" layoutY="290.0" mnemonicParsing="false" onAction="#handleCancelButton" text="Cancel" />
+      <Button layoutX="27.0" layoutY="290.0" mnemonicParsing="false" onAction="#handleSaveAppointmentButton" text="Add Appointment" />
+      <DatePicker fx:id="datePicker" layoutX="359.0" layoutY="125.0" prefHeight="27.0" prefWidth="127.0" />
+      <Label layoutX="317.0" layoutY="130.0" text="Date" />
+      <TextField fx:id="startTimeTextField" layoutX="380.0" layoutY="165.0" prefHeight="27.0" prefWidth="57.0" promptText="00:00" />
+      <TextField fx:id="endTimeTextField" layoutX="380.0" layoutY="197.0" prefHeight="27.0" prefWidth="57.0" promptText="00:00" />
+      <Label layoutX="315.0" layoutY="170.0" text="Start Time" />
+      <Label layoutX="315.0" layoutY="202.0" text="End Time" />
+   </children>
+</AnchorPane>
