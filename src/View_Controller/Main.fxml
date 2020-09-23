@@ -57,7 +57,7 @@
                   <Insets right="20.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="135.0" text="Modify Appointment">
+            <Button mnemonicParsing="false" onAction="#handleModifyAppointmentButton" prefHeight="27.0" prefWidth="135.0" text="Modify Appointment">
                <HBox.margin>
                   <Insets right="20.0" />
                </HBox.margin>

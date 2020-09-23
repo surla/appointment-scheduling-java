@@ -107,11 +107,11 @@ public class AddCustomerController {
     public void handleCancelButton(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/View_Controller/Main.fxml"));
-        Parent AddCustomerParent = loader.load();
-        Scene AddCustomerScene = new Scene(AddCustomerParent);
+        Parent Parent = loader.load();
+        Scene mainScene = new Scene(Parent);
 
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-        window.setScene(AddCustomerScene);
+        window.setScene(mainScene);
         window.show();
     }
 

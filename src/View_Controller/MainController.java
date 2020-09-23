@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -45,6 +46,30 @@ public class MainController implements Initializable {
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
         window.setScene(AddCustomerScene);
         window.show();
+    }
+
+    public void handleModifyAppointmentButton(ActionEvent event) throws IOException {
+        if (appointmentTableView.getSelectionModel().getSelectedItem() != null) {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/View_Controller/ModifyAppointment.fxml"));
+            Parent modifyAppointmentParent = loader.load();
+            Scene modifyAppointmentScene = new Scene(modifyAppointmentParent);
+
+            //Accesses the controller and passed in the selected part
+            ModifyAppointmentController controller = loader.getController();
+            controller.initData(appointmentTableView.getSelectionModel().getSelectedItem());
+
+            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setScene(modifyAppointmentScene);
+            window.show();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Modify Appointment");
+            alert.setHeaderText("No appointment selected.");
+            alert.setContentText("Please select appointment to modify.");
+
+            alert.showAndWait();
+        }
     }
 
     public void handleAddCustomerButton(ActionEvent event) throws IOException {

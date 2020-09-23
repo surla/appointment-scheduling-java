@@ -8,10 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import utils.DBQuery;
@@ -22,6 +19,7 @@ import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import static utils.DBConnection.conn;
@@ -105,28 +103,37 @@ public class ModifyCustomerController implements Initializable {
 
     // Method will delete customer and associated address
     public void handleDeleteButton(ActionEvent event) throws SQLException {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Modify Customer");
+        alert.setHeaderText("Delete customer");
+        alert.setContentText("Do you want to delete customer?");
 
-        String deleteCustomerStatement = "DELETE customer, address FROM customer INNER JOIN address on address.addressId=? WHERE customer.customerId=?";
-        DBQuery.makeQuery(deleteCustomerStatement);
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK){
+            String deleteCustomerStatement = "DELETE customer, address FROM customer INNER JOIN address on address.addressId=? WHERE customer.customerId=?";
+            DBQuery.makeQuery(deleteCustomerStatement);
 
-        PreparedStatement psDeleteCustomer = DBQuery.getQuery();
-        psDeleteCustomer.setInt(1, addressId);
-        psDeleteCustomer.setInt(2, customerId);
-        psDeleteCustomer.execute();
+            PreparedStatement psDeleteCustomer = DBQuery.getQuery();
+            psDeleteCustomer.setInt(1, addressId);
+            psDeleteCustomer.setInt(2, customerId);
+            psDeleteCustomer.execute();
 
-        // Clears and sets AllCustomers with updated values
-        Customer.getAllCustomers().clear();
-        Customer.setAllCustomers();
+            // Clears and sets AllCustomers with updated values
+            Customer.getAllCustomers().clear();
+            Customer.setAllCustomers();
 
-        // Refreshes customerTable view with updated customers
-        customerTableView.refresh();
+            // Refreshes customerTable view with updated customers
+            customerTableView.refresh();
 
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Delete Customer");
-        alert.setHeaderText("Delete successful.");
-        alert.setContentText("Customer information has been successfully deleted.");
+            Alert alert2 = new Alert(Alert.AlertType.INFORMATION);
+            alert2.setTitle("Delete Customer");
+            alert2.setHeaderText("Delete successful.");
+            alert2.setContentText("Customer information has been successfully deleted.");
 
-        alert.showAndWait();
+            alert2.showAndWait();
+        }
+
+
     }
 
 
