@@ -2,6 +2,8 @@ package View_Controller;
 
 import Model.Appointment;
 import Model.Customer;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -54,16 +56,11 @@ public class ModifyAppointmentController {
         start = selectedAppointment.getStart();
         end = selectedAppointment.getEnd();
 
-        System.out.println(appointmentId);
-
         // Add date from start time to date variable
         date = start.toLocalDateTime().toLocalDate();
 
         startTimeStr = start.toLocalDateTime().toLocalTime().toString();
         endTimeStr = end.toLocalDateTime().toLocalTime().toString();
-
-
-
 
         // Set text for TextFields
         titleTextField.setText(title);
@@ -75,6 +72,62 @@ public class ModifyAppointmentController {
         endTimeTextField.setText(endTimeStr);
 
     }
+
+    public void handleUpdateAppointmentButton(ActionEvent event) throws SQLException, IOException {
+        title = titleTextField.getText();
+        description = descriptionTextField.getText();
+        location = locationTextField.getText();
+        type = typeTextField.getText();
+
+        date = datePicker.getValue();
+        String startTime = startTimeTextField.getText();
+        String endTime = endTimeTextField.getText();
+
+        String inputStartDate = date + " " + startTime + ":00";
+        String inputEndDate = date + " " + endTime + ":00";
+
+        Timestamp timestampStart = Timestamp.valueOf(inputStartDate);
+        Timestamp timestampEnd = Timestamp.valueOf(inputEndDate);
+
+        String updateAppointmentStatement = "UPDATE appointment SET title=?, description=?, location=?, type=?, start=?, end=? WHERE appointmentId=?";
+
+        DBQuery.makeQuery(updateAppointmentStatement);
+
+        PreparedStatement psUpdateAppointment = DBQuery.getQuery();
+
+        psUpdateAppointment.setString(1, title);
+        psUpdateAppointment.setString(2, description);
+        psUpdateAppointment.setString(3, location);
+        psUpdateAppointment.setString(4, type);
+        psUpdateAppointment.setTimestamp(5,timestampStart);
+        psUpdateAppointment.setTimestamp(6, timestampEnd);
+        psUpdateAppointment.setInt(7, appointmentId);
+
+        psUpdateAppointment.execute();
+        System.out.println("Update Appointment Success");
+
+        // Clears current list of appointments.
+        Appointment.getAllAppointments().clear();
+
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/View_Controller/Main.fxml"));
+        Parent Parent = loader.load();
+        Scene mainScene = new Scene(Parent);
+
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(mainScene);
+        window.show();
+
+
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Update Appointment");
+        alert.setHeaderText("Updated successful.");
+        alert.setContentText("Appointment has been successfully updated.");
+
+        alert.showAndWait();
+    }
+
     public void handleDeleteButton(ActionEvent event) throws SQLException, IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Modify Appointment");
@@ -83,14 +136,14 @@ public class ModifyAppointmentController {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK){
-            String deleteAppointmentStatement = "DELETE appointment FROM appointment WHERE appointment.appointmentId=?";
+            String deleteAppointmentStatement = "DELETE appointment FROM appointment WHERE appointmentId=?";
             DBQuery.makeQuery(deleteAppointmentStatement);
 
             PreparedStatement psDeleteAppointment = DBQuery.getQuery();
             psDeleteAppointment.setInt(1, appointmentId);
             psDeleteAppointment.execute();
 
-            // Clears and sets AllCustomers with updated values
+            // Clears and sets AllAppointments with updated values
             Appointment.getAllAppointments().clear();
             Appointment.setAllAppointments();
 
@@ -126,4 +179,5 @@ public class ModifyAppointmentController {
         window.setScene(mainScene);
         window.show();
     }
+
 }

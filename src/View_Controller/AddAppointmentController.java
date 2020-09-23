@@ -2,6 +2,8 @@ package View_Controller;
 
 import Model.Appointment;
 import Model.Customer;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,6 +11,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -39,6 +42,7 @@ public class AddAppointmentController {
     private Date end;
     private Timestamp timestamp;
 
+    @FXML private ComboBox customerList;
     @FXML private TextField titleTextField;
     @FXML private TextField descriptionTextField;
     @FXML private TextField locationTextField;
@@ -46,18 +50,30 @@ public class AddAppointmentController {
     @FXML private DatePicker datePicker;
     @FXML private TextField startTimeTextField;
     @FXML private TextField endTimeTextField;
+    @FXML private ComboBox customerComboBox;
 
     private String inputStartDate;
     private String inputEndDate;
     private Timestamp timestampStart;
     private Timestamp timestampEnd;
 
+    private ObservableList<Customer> getCustomerList = FXCollections.observableArrayList();
+    private Integer customerId;
+
 
     public void handleSaveAppointmentButton(ActionEvent event) throws ParseException, SQLException, IOException {
+        for (Customer customer: getCustomerList) {
+            if (customer.getCustomerName().equals(customerComboBox.getValue())) {
+                customerId = customer.getCustomerId();
+            }
+        }
+        System.out.println(customerId);
+
+
         title = titleTextField.getText();
         description = descriptionTextField.getText();
         location = locationTextField.getText();
-        type = typeTextField.getTypeSelector();
+        type = typeTextField.getText();
         date = datePicker.getValue();
         startTime = startTimeTextField.getText();
         endTime = endTimeTextField.getText();
@@ -68,23 +84,20 @@ public class AddAppointmentController {
         timestampStart = Timestamp.valueOf(inputStartDate);
         timestampEnd = Timestamp.valueOf(inputEndDate);
 
-//        (1,1,1,'not needed','not needed','not needed','not needed','Presentation','not needed','2019-01-01 00:00:00',
-//                '2019-01-01 00:00:00',),
-        String insertAppointmentStatement = "INSERT INTO appointment VALUES (NULL,1,1,?,?,?, 'no contact',?, 'no url',?,?,'2019-01-01 00:00:00','test','2019-01-01 00:00:00','test')";
+        String insertAppointmentStatement = "INSERT INTO appointment VALUES (NULL,?,1,?,?,?, 'no contact',?, 'no url',?,?,'2019-01-01 00:00:00','test','2019-01-01 00:00:00','test')";
 
         DBQuery.makeQuery(insertAppointmentStatement);
 
         PreparedStatement psAppointment = DBQuery.getQuery();
-
-        psAppointment.setString(1, title);
-        psAppointment.setString(2, description);
-        psAppointment.setString(3, location);
-        psAppointment.setString(4, type);
-        psAppointment.setTimestamp(5,timestampStart);
-        psAppointment.setTimestamp(6, timestampEnd);
+        psAppointment.setInt(1, customerId);
+        psAppointment.setString(2, title);
+        psAppointment.setString(3, description);
+        psAppointment.setString(4, location);
+        psAppointment.setString(5, type);
+        psAppointment.setTimestamp(6,timestampStart);
+        psAppointment.setTimestamp(7, timestampEnd);
 
         psAppointment.execute();
-        System.out.println("Add Appointment Success");
 
         // Clears and sets AllCustomers with updated values
         Appointment.getAllAppointments().clear();
@@ -119,4 +132,23 @@ public class AddAppointmentController {
         window.setScene(AddCustomerScene);
         window.show();
     }
+
+    public void initialize() throws SQLException {
+
+        // Below creates a String observablelist to populate customer combobox
+        if (Customer.getAllCustomers().isEmpty()) {
+            Customer.setAllCustomers();
+        }
+
+        getCustomerList = Customer.getAllCustomers();
+
+        ObservableList<String> customerNameList = FXCollections.observableArrayList();
+
+        for (Customer customer: getCustomerList) {
+            customerNameList.add(customer.getCustomerName());
+        }
+
+        customerComboBox.setItems(customerNameList);
+    }
+
 }
