@@ -39,6 +39,6 @@
       <TextField fx:id="endTimeTextField" layoutX="380.0" layoutY="197.0" prefHeight="27.0" prefWidth="57.0" promptText="00:00" />
       <Label layoutX="315.0" layoutY="170.0" text="Start Time" />
       <Label layoutX="315.0" layoutY="202.0" text="End Time" />
-      <Button layoutX="180.0" layoutY="290.0" mnemonicParsing="false" text="Delete Appointment" />
+      <Button layoutX="180.0" layoutY="290.0" mnemonicParsing="false" onAction="#handleDeleteButton" text="Delete Appointment" />
    </children>
 </AnchorPane>
