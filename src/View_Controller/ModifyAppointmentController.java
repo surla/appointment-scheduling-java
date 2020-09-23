@@ -14,6 +14,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import utils.DBQuery;
 
+import javax.xml.soap.Text;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -25,6 +26,8 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 public class ModifyAppointmentController {
+
+    @FXML private Label nameLabel;
     @FXML private TextField titleTextField;
     @FXML private TextField descriptionTextField;
     @FXML private TextField locationTextField;
@@ -35,6 +38,7 @@ public class ModifyAppointmentController {
 
     private Appointment selectedAppointment;
     private Integer appointmentId;
+    private Integer customerId;
     private String title;
     private String description;
     private String location;
@@ -45,16 +49,27 @@ public class ModifyAppointmentController {
     private String startTimeStr;
     private String endTimeStr;
 
-    public void initData (Appointment appointment) throws IOException {
+    private String customerName;
+
+    public void initData (Appointment appointment) throws IOException, SQLException {
         selectedAppointment = appointment;
 
         appointmentId = selectedAppointment.getAppointmentId();
+        customerId = selectedAppointment.getCustomerId();
         title = selectedAppointment.getTitle();
         description = selectedAppointment.getDescription();
         location = selectedAppointment.getLocation();
         type = selectedAppointment.getType();
         start = selectedAppointment.getStart();
         end = selectedAppointment.getEnd();
+
+        Customer.setAllCustomers();
+        Customer.getAllCustomers();
+        for (Customer customer: Customer.getAllCustomers()) {
+            if (customer.getCustomerId() == customerId) {
+                customerName = customer.getCustomerName();
+            }
+        }
 
         // Add date from start time to date variable
         date = start.toLocalDateTime().toLocalDate();
@@ -63,6 +78,7 @@ public class ModifyAppointmentController {
         endTimeStr = end.toLocalDateTime().toLocalTime().toString();
 
         // Set text for TextFields
+        nameLabel.setText(customerName);
         titleTextField.setText(title);
         descriptionTextField.setText(description);
         locationTextField.setText(location);

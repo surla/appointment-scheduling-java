@@ -45,7 +45,7 @@ public class MainController implements Initializable {
         window.show();
     }
 
-    public void handleModifyAppointmentButton(ActionEvent event) throws IOException {
+    public void handleModifyAppointmentButton(ActionEvent event) throws IOException, SQLException {
         if (appointmentTableView.getSelectionModel().getSelectedItem() != null) {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/View_Controller/ModifyAppointment.fxml"));

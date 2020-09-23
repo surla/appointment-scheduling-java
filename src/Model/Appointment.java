@@ -20,6 +20,7 @@ public class Appointment {
     private static ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
 
     private int appointmentId;
+    private int customerId;
     private String title;
     private String description;
     private String location;
@@ -27,8 +28,9 @@ public class Appointment {
     private Timestamp start;
     private Timestamp end;
 
-    public Appointment(int appointmentId, String title, String description, String location, String type, Timestamp start, Timestamp end) {
+    public Appointment(int appointmentId, int customerId, String title, String description, String location, String type, Timestamp start, Timestamp end) {
         this.appointmentId = appointmentId;
+        this.customerId = customerId;
         this.title = title;
         this.description = description;
         this.location = location;
@@ -43,6 +45,14 @@ public class Appointment {
 
     public void setAppointmentId(int appointmentId) {
         this.appointmentId = appointmentId;
+    }
+
+    public int getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
     }
 
     public String getTitle() {
@@ -95,10 +105,10 @@ public class Appointment {
 
     public static void setAllAppointments() throws SQLException {
 
-        ResultSet rs = conn.createStatement().executeQuery("SELECT appointmentId, title, description, location, type, start, end FROM appointment");
+        ResultSet rs = conn.createStatement().executeQuery("SELECT appointmentId, customerId, title, description, location, type, start, end FROM appointment");
 
         while (rs.next()) {
-            allAppointments.add(new Appointment(rs.getInt("appointmentId"), rs.getString("title"), rs.getString("description"),
+            allAppointments.add(new Appointment(rs.getInt("appointmentId"), rs.getInt("customerId"), rs.getString("title"), rs.getString("description"),
                     rs.getString("location"), rs.getString("type"),
                     rs.getTimestamp("start"),
                     rs.getTimestamp("end")));
