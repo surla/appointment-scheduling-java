@@ -238,7 +238,11 @@ public class AddAppointmentController {
             customerNameList.add(customer.getCustomerName());
         }
 
+        // Sets combobox with customer names;
         customerComboBox.setItems(customerNameList);
+
+        //Sets default customer
+        customerComboBox.getSelectionModel().selectFirst();
     }
 
 }

@@ -61,6 +61,7 @@ public class ModifyAppointmentController {
         description = selectedAppointment.getDescription();
         location = selectedAppointment.getLocation();
         type = selectedAppointment.getType();
+        date = selectedAppointment.getDate();
         start = selectedAppointment.getStart();
         end = selectedAppointment.getEnd();
 
