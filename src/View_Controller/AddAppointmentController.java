@@ -65,7 +65,6 @@ public class AddAppointmentController {
     private Integer customerId;
     private Integer userId;
 
-
     public boolean checkAppointment(LocalDateTime startTime, LocalDateTime endTime) throws SQLException {
         String selectStatement = "Select * FROM appointment";
 
@@ -88,6 +87,7 @@ public class AddAppointmentController {
                     alert.setContentText("Please try again.");
 
                     alert.showAndWait();
+                    break;
                 }
             }
         } catch (Exception e) {

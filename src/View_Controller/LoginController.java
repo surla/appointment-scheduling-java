@@ -27,6 +27,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -71,6 +72,43 @@ public class LoginController {
         }
     }
 
+    /**
+     * Method checks if there are appointments within 15 minutes of logging in
+     *
+     */
+
+    public void checkAppointmentWithin15() throws SQLException {
+        LocalDateTime currentTime = LocalDateTime.now();
+        LocalDateTime currentTimePlus15 = currentTime.plusMinutes(15);
+
+        String selectStatement = "Select * FROM appointment";
+
+        DBQuery.makeQuery(selectStatement);
+
+        PreparedStatement ps = DBQuery.getQuery();
+        ps.execute();
+
+        ResultSet rs = ps.getResultSet();
+
+        try {
+            while (rs.next()) {
+                LocalDateTime appointmentStartTime = rs.getTimestamp("start").toLocalDateTime();
+
+                if (currentTime.toLocalDate().equals(appointmentStartTime.toLocalDate()) &&
+                        appointmentStartTime.isBefore(currentTimePlus15) && appointmentStartTime.isAfter(currentTime)) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Next Appointment");
+                    alert.setHeaderText("Next appointment is in the next 15 minutes.");
+                    alert.setContentText("Please be ready for appointment.");
+
+                    alert.showAndWait();
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
     // Handles LoginButton click
     public void handleLogInButton(ActionEvent event) throws SQLException, IOException {
 
@@ -91,7 +129,7 @@ public class LoginController {
 
 
         /**
-         * Used Try and catch exception controll for user login. User gets alert if user and password is incorrect.
+         * Used Try and catch exception control for user login. User gets alert if user and password is incorrect.
          */
 
         try {
@@ -99,8 +137,11 @@ public class LoginController {
             currentUser = new User(rs.getInt(1), username);
             User.setCurrentUser(currentUser);
 
-            //Logs user
+            // Logs user
             this.userLog(currentUser);
+
+            // Checks if appointment is available when user logs in
+            this.checkAppointmentWithin15();
 
             Parent root = FXMLLoader.load(getClass().getResource("/View_Controller/Main.fxml"));
             Scene mainScene = new Scene(root);
@@ -118,6 +159,8 @@ public class LoginController {
             alert.showAndWait();
         }
     }
+
+
 
     public void initialize() {
         // Gets System default language

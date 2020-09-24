@@ -2,6 +2,8 @@ package View_Controller;
 
 import Model.Appointment;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,9 +16,12 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import sun.lwawt.macosx.CSystemTray;
+import utils.DBQuery;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -39,6 +44,8 @@ import static java.time.temporal.TemporalAdjusters.previous;
 public class MainController implements Initializable {
 
     private ToggleGroup viewByToggleGroup = new ToggleGroup();
+
+    private ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
 
     private FilteredList<Appointment> viewByMonthAppointments;
     private FilteredList<Appointment> viewByWeekAppointments;
@@ -183,6 +190,53 @@ public class MainController implements Initializable {
         window.show();
     }
 
+    /**
+     * Checks if there is an available appointment within 15 minutes
+     */
+
+    public void availableAppointment() throws SQLException {
+        LocalDateTime currentTime = LocalDateTime.now();
+        LocalDateTime currentTimePlus15 = currentTime.plusMinutes(15);
+        // Check if there are no appointment for the current day.
+        if (!allAppointments.contains(currentTime.toLocalDate().toString())) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Appointment");
+            alert.setHeaderText("Appointment available in the next 15 minutes.");
+            alert.setContentText("Please add appointment right away.");
+
+            alert.showAndWait();
+        } else {
+
+            String selectStatement = "Select * FROM appointment";
+
+            DBQuery.makeQuery(selectStatement);
+
+            PreparedStatement ps = DBQuery.getQuery();
+            ps.execute();
+
+            ResultSet rs = ps.getResultSet();
+
+            try {
+                while (rs.next()) {
+                    LocalDateTime appointmentStartTime = rs.getTimestamp("start").toLocalDateTime();
+
+                    if (currentTimePlus15.isBefore(appointmentStartTime)) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Add Appointment");
+                        alert.setHeaderText("New appointment overlaps with another appointment");
+                        alert.setContentText("Please try again.");
+
+                        alert.showAndWait();
+                        break;
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+
+        }
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // Statement prevents running setAllCustomers() when reloading the modify scene.
@@ -194,9 +248,10 @@ public class MainController implements Initializable {
             }
         }
 
+        allAppointments = Appointment.getAllAppointments();
 
         //TableView Appointment
-        appointmentTableView.setItems(Appointment.getAllAppointments());
+        appointmentTableView.setItems(allAppointments);
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
         locationColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
