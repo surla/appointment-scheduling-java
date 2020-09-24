@@ -86,11 +86,14 @@ public class AddAppointmentController {
         startTime = startTimeTextField.getText();
         endTime = endTimeTextField.getText();
 
+
+
         inputStartDate= date + " " + startTime + ":00";
         inputEndDate = date + " " + endTime + ":00";
 
         timestampStart = Timestamp.valueOf(inputStartDate);
         timestampEnd = Timestamp.valueOf(inputEndDate);
+
 
         String insertAppointmentStatement = "INSERT INTO appointment VALUES (NULL,?,?,?,?,?, 'no contact',?, 'no url',?,?,'2019-01-01 00:00:00','test','2019-01-01 00:00:00','test')";
 
@@ -145,8 +148,13 @@ public class AddAppointmentController {
     public void initialize() throws SQLException {
 
         // Below creates a String observablelist to populate customer combobox
+
         if (Customer.getAllCustomers().isEmpty()) {
-            Customer.setAllCustomers();
+            try {
+                Customer.setAllCustomers();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         }
 
         getCustomerList = Customer.getAllCustomers();

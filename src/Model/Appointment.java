@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -25,16 +26,18 @@ public class Appointment {
     private String description;
     private String location;
     private String type;
-    private Timestamp start;
-    private Timestamp end;
+    private LocalDate date;
+    private LocalTime start;
+    private LocalTime end;
 
-    public Appointment(int appointmentId, int customerId, String title, String description, String location, String type, Timestamp start, Timestamp end) {
+    public Appointment(int appointmentId, int customerId, String title, String description, String location, String type, LocalDate date, LocalTime start, LocalTime end) {
         this.appointmentId = appointmentId;
         this.customerId = customerId;
         this.title = title;
         this.description = description;
         this.location = location;
         this.type = type;
+        this.date = date;
         this.start = start;
         this.end = end;
     }
@@ -87,19 +90,27 @@ public class Appointment {
         this.type = type;
     }
 
-    public Timestamp getStart() {
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public LocalTime getStart() {
         return start;
     }
 
-    public void setStart(Timestamp start) {
+    public void setStart(LocalTime start) {
         this.start = start;
     }
 
-    public Timestamp getEnd() {
+    public LocalTime getEnd() {
         return end;
     }
 
-    public void setEnd(Timestamp end) {
+    public void setEnd(LocalTime end) {
         this.end = end;
     }
 
@@ -110,8 +121,11 @@ public class Appointment {
         while (rs.next()) {
             allAppointments.add(new Appointment(rs.getInt("appointmentId"), rs.getInt("customerId"), rs.getString("title"), rs.getString("description"),
                     rs.getString("location"), rs.getString("type"),
-                    rs.getTimestamp("start"),
-                    rs.getTimestamp("end")));
+                    rs.getTimestamp("start").toLocalDateTime().toLocalDate(),
+                    rs.getTimestamp("start").toLocalDateTime().toLocalTime(),
+                    rs.getTimestamp("end").toLocalDateTime().toLocalTime()));
+
+            System.out.println(rs.getTimestamp("start").toLocalDateTime());
         }
     }
 

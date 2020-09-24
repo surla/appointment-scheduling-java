@@ -23,6 +23,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Optional;
 
 public class ModifyAppointmentController {
@@ -44,8 +45,8 @@ public class ModifyAppointmentController {
     private String location;
     private String type;
     private LocalDate date;
-    private Timestamp start;
-    private Timestamp end;
+    private LocalTime start;
+    private LocalTime end;
     private String startTimeStr;
     private String endTimeStr;
 
@@ -71,11 +72,11 @@ public class ModifyAppointmentController {
             }
         }
 
-        // Add date from start time to date variable
-        date = start.toLocalDateTime().toLocalDate();
-
-        startTimeStr = start.toLocalDateTime().toLocalTime().toString();
-        endTimeStr = end.toLocalDateTime().toLocalTime().toString();
+//        // Add date from start time to date variable
+//        date = start.toLocalDateTime().toLocalDate();
+//
+//        startTimeStr = start.toLocalDateTime().toLocalTime().toString();
+//        endTimeStr = end.toLocalDateTime().toLocalTime().toString();
 
         // Set text for TextFields
         nameLabel.setText(customerName);
@@ -84,8 +85,8 @@ public class ModifyAppointmentController {
         locationTextField.setText(location);
         typeTextField.setText(type);
         datePicker.setValue(date);
-        startTimeTextField.setText(startTimeStr);
-        endTimeTextField.setText(endTimeStr);
+        startTimeTextField.setText(String.valueOf(start));
+        endTimeTextField.setText(String.valueOf(end));
 
     }
 
