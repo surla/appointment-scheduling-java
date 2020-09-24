@@ -18,11 +18,15 @@ import utils.DBQuery;
 
 
 import javax.swing.*;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -48,6 +52,19 @@ public class LoginController {
     // Database connection
     private static Connection conn = null;
 
+
+    // Creates and adds user log ins to log file
+    public void userLog(User currentUser) throws IOException {
+
+        String filename = "userLog";
+        FileWriter writeFile = new FileWriter(filename, true);
+        PrintWriter logFile = new PrintWriter(writeFile);
+
+        logFile.println("User: " + currentUser.getUsername() + ", Login time: " + LocalDateTime.now());
+
+        logFile.close();
+    }
+
     // Handles LoginButton click
     public void handleLogInButton(ActionEvent event) throws SQLException, IOException {
 
@@ -69,6 +86,9 @@ public class LoginController {
         if (rs.next()) {
             currentUser = new User(rs.getInt(1), username, password);
             User.setCurrentUser(currentUser);
+
+            //Logs user
+            this.userLog(currentUser);
 
             Parent root = FXMLLoader.load(getClass().getResource("/View_Controller/Main.fxml"));
             Scene mainScene = new Scene(root);

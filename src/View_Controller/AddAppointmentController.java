@@ -64,18 +64,8 @@ public class AddAppointmentController {
 
 
     public void handleSaveAppointmentButton(ActionEvent event) throws ParseException, SQLException, IOException {
-
-        System.out.println(User.getCurrentUser().getUserId());
-
-        for (Customer customer: getCustomerList) {
-            if (customer.getCustomerName().equals(customerComboBox.getValue())) {
-                customerId = customer.getCustomerId();
-            }
-        }
-
         // Gets current logged in userId;
         userId= User.getCurrentUser().getUserId();
-
 
 
         title = titleTextField.getText();
@@ -86,14 +76,27 @@ public class AddAppointmentController {
         startTime = startTimeTextField.getText();
         endTime = endTimeTextField.getText();
 
+        if (title.isEmpty() || description.isEmpty() || location.isEmpty() || type.isEmpty() ||  date.equals("") ||
+                startTime.isEmpty() || endTime.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Add Appointment");
+            alert.setHeaderText("One or more field(s) is empty or invalid!");
+            alert.setContentText("Please try again.");
 
+            alert.showAndWait();
+        }
+
+        for (Customer customer: getCustomerList) {
+            if (customer.getCustomerName().equals(customerComboBox.getValue())) {
+                customerId = customer.getCustomerId();
+            }
+        }
 
         inputStartDate= date + " " + startTime + ":00";
         inputEndDate = date + " " + endTime + ":00";
 
         timestampStart = Timestamp.valueOf(inputStartDate);
         timestampEnd = Timestamp.valueOf(inputEndDate);
-
 
         String insertAppointmentStatement = "INSERT INTO appointment VALUES (NULL,?,?,?,?,?, 'no contact',?, 'no url',?,?,'2019-01-01 00:00:00','test','2019-01-01 00:00:00','test')";
 

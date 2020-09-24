@@ -57,8 +57,7 @@ public class MainController implements Initializable {
     @FXML private RadioButton viewByMonthRadioButton;
     @FXML private RadioButton viewByWeekRadioButton;
 
-    // This method shows filtered view when radio button is selected
-
+    // This method shows filtered view when radio button is selecte
     public void setFilteredListView(ActionEvent event) throws SQLException {
 
         viewByMonthAppointments = new FilteredList<>(Appointment.getAllAppointments(), a -> true);
@@ -98,9 +97,9 @@ public class MainController implements Initializable {
             LocalDate prevSunday = today.with(previous(SATURDAY));
             LocalDate nextSaturday = today.with(next(SATURDAY));
 
-
+            // Finds appointments between first and last Sunday
             viewByWeekAppointments.setPredicate(appointment -> {
-                // Statement finds appointments between first and last Sunday
+
                 if (appointment.getDate().isAfter(prevSunday) && appointment.getDate().isBefore(nextSaturday)) {
                     appointmentTableView.setItems(viewByWeekAppointments);
                     appointmentTableView.refresh();
