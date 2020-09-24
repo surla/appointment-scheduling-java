@@ -57,12 +57,18 @@ public class LoginController {
     public void userLog(User currentUser) throws IOException {
 
         String filename = "userLog";
-        FileWriter writeFile = new FileWriter(filename, true);
-        PrintWriter logFile = new PrintWriter(writeFile);
 
-        logFile.println("User: " + currentUser.getUsername() + ", Login time: " + LocalDateTime.now());
+        /**
+         * Used try with resource exception control for writing log file;
+         */
 
-        logFile.close();
+        try (FileWriter writeFile = new FileWriter(filename, true)) {
+            PrintWriter logFile = new PrintWriter(writeFile);
+
+            logFile.println("User: " + currentUser.getUsername() + ", Login time: " + LocalDateTime.now());
+
+            logFile.close();
+        }
     }
 
     // Handles LoginButton click
@@ -83,7 +89,13 @@ public class LoginController {
 
         ResultSet rs = ps.getResultSet();
 
-        if (rs.next()) {
+
+        /**
+         * Used Try and catch exception controll for user login. User gets alert if user and password is incorrect.
+         */
+
+        try {
+            rs.next();
             currentUser = new User(rs.getInt(1), username);
             User.setCurrentUser(currentUser);
 
@@ -95,7 +107,9 @@ public class LoginController {
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             window.setScene(mainScene);
             window.show();
-        } else {
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle(alertTitle);
             alert.setHeaderText(alertHeaderText);
@@ -103,7 +117,6 @@ public class LoginController {
 
             alert.showAndWait();
         }
-
     }
 
     public void initialize() {

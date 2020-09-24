@@ -63,7 +63,10 @@ public class ReportController implements Initializable {
             }
         }
 
-        // I created a lamda expression here to simplify code to iterate through appointment types
+        /**
+         * I created a Lamdda expression here to simplify code that need to be written to iterate through appointment types
+         * and add it to a string variable. This make is more readable and less prone to errors
+         */
         appointmentTypes.forEach((k, v) -> {
             numberOfTypes = numberOfTypes + k + " = " + v + " ";
         });

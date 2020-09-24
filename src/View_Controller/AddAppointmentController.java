@@ -25,6 +25,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class AddAppointmentController {
@@ -63,6 +65,7 @@ public class AddAppointmentController {
     private Integer userId;
 
 
+
     public void handleSaveAppointmentButton(ActionEvent event) throws ParseException, SQLException, IOException {
         // Gets current logged in userId;
         userId= User.getCurrentUser().getUserId();
@@ -76,15 +79,22 @@ public class AddAppointmentController {
         startTime = startTimeTextField.getText();
         endTime = endTimeTextField.getText();
 
-        if (title.isEmpty() || description.isEmpty() || location.isEmpty() || type.isEmpty() ||  date.equals("") ||
-                startTime.isEmpty() || endTime.isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Add Appointment");
-            alert.setHeaderText("One or more field(s) is empty or invalid!");
-            alert.setContentText("Please try again.");
+        try {
+            if (title.isEmpty() || description.isEmpty() || location.isEmpty() || type.isEmpty() ||  date.equals("") ||
+                    startTime.isEmpty() || endTime.isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Add Appointment");
+                alert.setHeaderText("One or more field(s) is empty or invalid!");
+                alert.setContentText("Please try again.");
 
-            alert.showAndWait();
+                alert.showAndWait();
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
+
+
+
 
         for (Customer customer: getCustomerList) {
             if (customer.getCustomerName().equals(customerComboBox.getValue())) {
@@ -97,6 +107,32 @@ public class AddAppointmentController {
 
         timestampStart = Timestamp.valueOf(inputStartDate);
         timestampEnd = Timestamp.valueOf(inputEndDate);
+
+        LocalTime timestampStartTime = timestampStart.toLocalDateTime().toLocalTime();
+        LocalTime timestampEndTime = timestampEnd.toLocalDateTime().toLocalTime();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        LocalDateTime businessStart = LocalDateTime.parse("2020-08-08 08:00:00", formatter);
+        LocalDateTime businessEnd = LocalDateTime.parse("2020-08-08 17:00:00", formatter);
+
+        LocalTime businessStartTime = businessStart.toLocalTime();
+        LocalTime businessEndTime = businessEnd.toLocalTime();
+
+        /**
+         * Checks if new appointment times are within business hours and is formatted correctly
+         */
+        if (timestampStartTime.isBefore(businessStartTime) || timestampStartTime.isAfter(businessEndTime) ||
+                timestampEndTime.isBefore(businessStartTime) || timestampEndTime.isAfter(businessEndTime)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Add Appointment");
+            alert.setHeaderText("Invalid appointment times!");
+            alert.setContentText("Please make sure times are within business hours and are in 24 hour time.");
+
+            alert.showAndWait();
+        }
+
+
 
         String insertAppointmentStatement = "INSERT INTO appointment VALUES (NULL,?,?,?,?,?, 'no contact',?, 'no url',?,?,'2019-01-01 00:00:00','test','2019-01-01 00:00:00','test')";
 

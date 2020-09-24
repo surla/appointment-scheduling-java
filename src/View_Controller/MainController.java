@@ -96,6 +96,11 @@ public class MainController implements Initializable {
             LocalDate prevSunday = today.with(previous(SATURDAY));
             LocalDate nextSaturday = today.with(next(SATURDAY));
 
+            /**
+             * I created a lambda here to have .setPredicate() method call a function to verify conditions for
+             * viewing appointments of current week; Lambda is useful here because it is only called when user
+             * clicks on a radio button.
+             */
             // Finds appointments between first and last Sunday
             viewByWeekAppointments.setPredicate(appointment -> {
 
