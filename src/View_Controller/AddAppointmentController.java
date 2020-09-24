@@ -26,6 +26,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.chrono.ChronoLocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
@@ -65,6 +66,36 @@ public class AddAppointmentController {
     private Integer userId;
 
 
+    public boolean checkAppointment(LocalDateTime startTime, LocalDateTime endTime) throws SQLException {
+        String selectStatement = "Select * FROM appointment";
+
+        DBQuery.makeQuery(selectStatement);
+
+        PreparedStatement ps = DBQuery.getQuery();
+        ps.execute();
+
+        ResultSet rs = ps.getResultSet();
+
+        try {
+            while (rs.next()) {
+                LocalDateTime appointmentStartTime = rs.getTimestamp("start").toLocalDateTime();
+                LocalDateTime appointmentEndTime = rs.getTimestamp("end").toLocalDateTime();
+
+                if (startTime.isAfter(appointmentStartTime) && endTime.isBefore(appointmentEndTime)) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Add Appointment");
+                    alert.setHeaderText("New appointment overlaps with another appointment");
+                    alert.setContentText("Please try again.");
+
+                    alert.showAndWait();
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        return false;
+    }
 
     public void handleSaveAppointmentButton(ActionEvent event) throws ParseException, SQLException, IOException {
         // Gets current logged in userId;
@@ -132,7 +163,10 @@ public class AddAppointmentController {
             alert.showAndWait();
         }
 
-
+        /**
+         * Checks if new appointment overlaps existing appointment
+         */
+        this.checkAppointment(timestampStart.toLocalDateTime(), timestampEnd.toLocalDateTime());
 
         String insertAppointmentStatement = "INSERT INTO appointment VALUES (NULL,?,?,?,?,?, 'no contact',?, 'no url',?,?,'2019-01-01 00:00:00','test','2019-01-01 00:00:00','test')";
 
