@@ -84,7 +84,7 @@ public class LoginController {
         ResultSet rs = ps.getResultSet();
 
         if (rs.next()) {
-            currentUser = new User(rs.getInt(1), username, password);
+            currentUser = new User(rs.getInt(1), username);
             User.setCurrentUser(currentUser);
 
             //Logs user

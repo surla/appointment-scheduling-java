@@ -47,7 +47,6 @@ public class MainController implements Initializable {
     @FXML private TableColumn<Appointment, String> titleColumn;
     @FXML private TableColumn<Appointment, String> descriptionColumn;
     @FXML private TableColumn<Appointment, String> locationColumn;
-    @FXML private TableColumn<Appointment, String> contactColumn;
     @FXML private TableColumn<Appointment, String> typeColumn;
     @FXML private TableColumn<Appointment, LocalDate> dateColumn;
     @FXML private TableColumn<Appointment, LocalTime> startTimeColumn;
@@ -114,11 +113,11 @@ public class MainController implements Initializable {
     public void handleAddAppointmentButton(ActionEvent event) throws IOException, SQLException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/View_Controller/AddAppointment.fxml"));
-        Parent AddCustomerParent = loader.load();
-        Scene AddCustomerScene = new Scene(AddCustomerParent);
+        Parent AddAppointmentParent = loader.load();
+        Scene AddAppointmentScene = new Scene(AddAppointmentParent);
 
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-        window.setScene(AddCustomerScene);
+        window.setScene(AddAppointmentScene);
         window.show();
     }
 
@@ -165,6 +164,17 @@ public class MainController implements Initializable {
 
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
         window.setScene(AddCustomerScene);
+        window.show();
+    }
+
+    public void handleReportButton(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/View_Controller/Report.fxml"));
+        Parent Parent = loader.load();
+        Scene mainScene = new Scene(Parent);
+
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(mainScene);
         window.show();
     }
 

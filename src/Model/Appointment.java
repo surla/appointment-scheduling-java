@@ -3,17 +3,10 @@ package Model;
 import static utils.DBConnection.conn;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.Initializable;
 
-import java.net.URL;
 import java.sql.*;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.ZoneId;
-import java.util.Date;
-import java.util.ResourceBundle;
 
 
 public class Appointment {
@@ -22,6 +15,7 @@ public class Appointment {
 
     private int appointmentId;
     private int customerId;
+    private int userId;
     private String title;
     private String description;
     private String location;
@@ -30,9 +24,10 @@ public class Appointment {
     private LocalTime start;
     private LocalTime end;
 
-    public Appointment(int appointmentId, int customerId, String title, String description, String location, String type, LocalDate date, LocalTime start, LocalTime end) {
+    public Appointment(int appointmentId, int customerId, int userId, String title, String description, String location, String type, LocalDate date, LocalTime start, LocalTime end) {
         this.appointmentId = appointmentId;
         this.customerId = customerId;
+        this.userId = userId;
         this.title = title;
         this.description = description;
         this.location = location;
@@ -56,6 +51,14 @@ public class Appointment {
 
     public void setCustomerId(int customerId) {
         this.customerId = customerId;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUseId(int userId) {
+        this.userId = userId;
     }
 
     public String getTitle() {
@@ -116,10 +119,10 @@ public class Appointment {
 
     public static void setAllAppointments() throws SQLException {
 
-        ResultSet rs = conn.createStatement().executeQuery("SELECT appointmentId, customerId, title, description, location, type, start, end FROM appointment");
+        ResultSet rs = conn.createStatement().executeQuery("SELECT appointmentId, customerId, userId, title, description, location, type, start, end FROM appointment");
 
         while (rs.next()) {
-            allAppointments.add(new Appointment(rs.getInt("appointmentId"), rs.getInt("customerId"), rs.getString("title"), rs.getString("description"),
+            allAppointments.add(new Appointment(rs.getInt("appointmentId"), rs.getInt("customerId"), rs.getInt("userId"), rs.getString("title"), rs.getString("description"),
                     rs.getString("location"), rs.getString("type"),
                     rs.getTimestamp("start").toLocalDateTime().toLocalDate(),
                     rs.getTimestamp("start").toLocalDateTime().toLocalTime(),

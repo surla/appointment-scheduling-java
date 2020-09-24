@@ -3,22 +3,22 @@ package Model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class User {
+import static utils.DBConnection.conn;
 
+public class User {
     private static User currentUser;
     private Integer userId;
     private String username;
-    private String password;
 
 
 
-    public User(int userId, String username, String password){
+    public User(int userId, String username){
         this.userId = userId;
         this.username = username;
-        this.password = password;
-
     }
 
     public void setUserId(int userId) {
@@ -37,15 +37,6 @@ public class User {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-
     public static void setCurrentUser(User user) {
         currentUser = user;
     }
@@ -53,4 +44,5 @@ public class User {
     public static User getCurrentUser() {
         return currentUser;
     }
+
 }
