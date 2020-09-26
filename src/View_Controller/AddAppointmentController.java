@@ -80,14 +80,24 @@ public class AddAppointmentController {
                 LocalDateTime appointmentStartTime = rs.getTimestamp("start").toLocalDateTime();
                 LocalDateTime appointmentEndTime = rs.getTimestamp("end").toLocalDateTime();
 
-                if (startTime.isAfter(appointmentStartTime) && endTime.isBefore(appointmentEndTime)) {
+                if (startTime.isAfter(appointmentStartTime.minusMinutes(1)) && endTime.isBefore(appointmentEndTime.plusMinutes(1))) {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Add Appointment");
                     alert.setHeaderText("New appointment overlaps with another appointment");
-                    alert.setContentText("Please try again.");
+                    alert.setContentText("Please change appointment times and try again.");
 
                     alert.showAndWait();
-                    break;
+                    return true;
+                }
+
+                if (startTime.isAfter(appointmentStartTime.minusMinutes(1)) && startTime.isBefore(appointmentEndTime.plusMinutes(1)) && endTime.isAfter(appointmentEndTime.plusMinutes(1))) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Add Appointment");
+                    alert.setHeaderText("New appointment overlaps with another appointment");
+                    alert.setContentText("Please change appointment times and try again.");
+
+                    alert.showAndWait();
+                    return true;
                 }
             }
         } catch (Exception e) {
@@ -97,7 +107,7 @@ public class AddAppointmentController {
         return false;
     }
 
-    public void handleSaveAppointmentButton(ActionEvent event) throws ParseException, SQLException, IOException {
+    public boolean handleSaveAppointmentButton(ActionEvent event) throws ParseException, SQLException, IOException {
         // Gets current logged in userId;
         userId= User.getCurrentUser().getUserId();
 
@@ -113,12 +123,14 @@ public class AddAppointmentController {
         try {
             if (title.isEmpty() || description.isEmpty() || location.isEmpty() || type.isEmpty() ||  date.equals("") ||
                     startTime.isEmpty() || endTime.isEmpty()) {
+
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Add Appointment");
                 alert.setHeaderText("One or more field(s) is empty or invalid!");
                 alert.setContentText("Please try again.");
 
                 alert.showAndWait();
+                return true;
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -153,20 +165,33 @@ public class AddAppointmentController {
         /**
          * Checks if new appointment times are within business hours and is formatted correctly
          */
-        if (timestampStartTime.isBefore(businessStartTime) || timestampStartTime.isAfter(businessEndTime) ||
-                timestampEndTime.isBefore(businessStartTime) || timestampEndTime.isAfter(businessEndTime)) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Add Appointment");
-            alert.setHeaderText("Invalid appointment times!");
-            alert.setContentText("Please make sure times are within business hours and are in 24 hour time.");
+        try {
+            if (timestampStartTime.isBefore(businessStartTime) || timestampStartTime.isAfter(businessEndTime) ||
+                    timestampEndTime.isBefore(businessStartTime) || timestampEndTime.isAfter(businessEndTime)) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Add Appointment");
+                alert.setHeaderText("Invalid appointment times!");
+                alert.setContentText("Please make sure times are within business hours and are in 24 hour time.");
 
-            alert.showAndWait();
+                alert.showAndWait();
+                return false;
+            }
+        } catch (Exception e) {
+            e.getMessage();
         }
 
         /**
          * Checks if new appointment overlaps existing appointment
          */
-        this.checkAppointment(timestampStart.toLocalDateTime(), timestampEnd.toLocalDateTime());
+        try {
+            if (this.checkAppointment(timestampStart.toLocalDateTime(), timestampEnd.toLocalDateTime())) {
+                return false;
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
 
         String insertAppointmentStatement = "INSERT INTO appointment VALUES (NULL,?,?,?,?,?, 'no contact',?, 'no url',?,?,'2019-01-01 00:00:00','test','2019-01-01 00:00:00','test')";
 
@@ -203,6 +228,8 @@ public class AddAppointmentController {
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(mainScene);
         window.show();
+
+        return true;
     }
 
 

@@ -16,14 +16,12 @@ import utils.DBQuery;
 
 import javax.xml.soap.Text;
 import java.io.IOException;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 public class ModifyAppointmentController {
@@ -91,7 +89,59 @@ public class ModifyAppointmentController {
 
     }
 
-    public void handleUpdateAppointmentButton(ActionEvent event) throws SQLException, IOException {
+    public boolean checkAppointment(LocalDateTime startTime, LocalDateTime endTime) throws SQLException {
+        String selectStatement = "Select * FROM appointment";
+
+        DBQuery.makeQuery(selectStatement);
+
+        PreparedStatement ps = DBQuery.getQuery();
+        ps.execute();
+
+        ResultSet rs = ps.getResultSet();
+
+        try {
+            while (rs.next()) {
+                LocalDateTime appointmentStartTime = rs.getTimestamp("start").toLocalDateTime();
+                LocalDateTime appointmentEndTime = rs.getTimestamp("end").toLocalDateTime();
+
+                if (startTime.isAfter(appointmentStartTime.minusMinutes(1)) && startTime.isBefore(appointmentEndTime.plusMinutes(1)) && endTime.isAfter(appointmentEndTime.plusMinutes(1))) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Add Appointment");
+                    alert.setHeaderText("New appointment overlaps with another appointment");
+                    alert.setContentText("Please change appointment times and try again.");
+
+                    alert.showAndWait();
+                    return true;
+                }
+
+                if (startTime.isAfter(appointmentStartTime.minusMinutes(1)) && endTime.isBefore(appointmentEndTime.plusMinutes(1))) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Add Appointment");
+                    alert.setHeaderText("New appointment overlaps with another appointment");
+                    alert.setContentText("Please change appointment times and try again.");
+
+                    alert.showAndWait();
+                    return true;
+                }
+
+                if (startTime.isAfter(appointmentStartTime.minusMinutes(1)) && startTime.isBefore(appointmentEndTime.plusMinutes(1)) && endTime.isAfter(appointmentEndTime.plusMinutes(1))) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Add Appointment");
+                    alert.setHeaderText("New appointment overlaps with another appointment");
+                    alert.setContentText("Please change appointment times and try again.");
+
+                    alert.showAndWait();
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        return false;
+    }
+
+    public boolean handleUpdateAppointmentButton(ActionEvent event) throws SQLException, IOException {
         title = titleTextField.getText();
         description = descriptionTextField.getText();
         location = locationTextField.getText();
@@ -106,6 +156,45 @@ public class ModifyAppointmentController {
 
         Timestamp timestampStart = Timestamp.valueOf(inputStartDate);
         Timestamp timestampEnd = Timestamp.valueOf(inputEndDate);
+
+        LocalTime timestampStartTime = timestampStart.toLocalDateTime().toLocalTime();
+        LocalTime timestampEndTime = timestampEnd.toLocalDateTime().toLocalTime();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        LocalDateTime businessStart = LocalDateTime.parse("2020-08-08 08:00:00", formatter);
+        LocalDateTime businessEnd = LocalDateTime.parse("2020-08-08 17:00:00", formatter);
+
+        LocalTime businessStartTime = businessStart.toLocalTime();
+        LocalTime businessEndTime = businessEnd.toLocalTime();
+
+        /**
+         * Checks if new appointment times are within business hours and is formatted correctly
+         */
+        try {
+            if (timestampStartTime.isBefore(businessStartTime) || timestampStartTime.isAfter(businessEndTime) ||
+                    timestampEndTime.isBefore(businessStartTime) || timestampEndTime.isAfter(businessEndTime)) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Add Appointment");
+                alert.setHeaderText("Invalid appointment times!");
+                alert.setContentText("Please make sure times are within business hours and are in 24 hour time.");
+
+                alert.showAndWait();
+                return false;
+            }
+        } catch (Exception e) {
+            e.getMessage();
+        }
+
+        try {
+            if (this.checkAppointment(timestampStart.toLocalDateTime(), timestampEnd.toLocalDateTime())) {
+                return true;
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
 
         String updateAppointmentStatement = "UPDATE appointment SET title=?, description=?, location=?, type=?, start=?, end=? WHERE appointmentId=?";
 
@@ -144,6 +233,7 @@ public class ModifyAppointmentController {
         alert.setContentText("Appointment has been successfully updated.");
 
         alert.showAndWait();
+        return true;
     }
 
     public void handleDeleteButton(ActionEvent event) throws SQLException, IOException {
